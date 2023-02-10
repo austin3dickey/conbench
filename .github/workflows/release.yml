@@ -94,7 +94,7 @@ jobs:
           script: |
             // We could push directly to main, but this may be more auditable and allow
             // us to discuss the release further on the PR
-            const pull = await github.rest.pulls.create({
+            const pr_response = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: '${{ steps.variables.outputs.commit_msg }}',
@@ -102,13 +102,13 @@ jobs:
               base: 'main',
               body: 'Beep, boop. I am a bot, requested to open this PR in preparation to release to PyPI.'
             })
-            console.log('PR created:')
-            console.log(pull)
+            console.log('PR created. Response:')
+            console.log(pr_response)
 
             await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: pull.number
+              pull_number: pr_response.data.number
             })
       - name: Sync local repo to main branch
         id: get_commit
