@@ -87,7 +87,7 @@ jobs:
           git checkout -B ${{ steps.variables.outputs.branch_name }}
           git add ${{ steps.variables.outputs.version_file }}
           git commit -m '${{ steps.variables.outputs.commit_msg }}'
-          git push --set-upstream origin
+          git push --set-upstream origin ${{ steps.variables.outputs.branch_name }}
       - name: Open and merge a PR
         uses: actions/github-script@v6
         with:
