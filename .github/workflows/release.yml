@@ -14,7 +14,7 @@ on:
           - benchrun
           - conbench
       version_suffix:
-        description: Optional suffix if there's >1 release today. Recommended to leave blank.
+        description: Optional suffix (e.g. 1) if there's >1 release today. Recommended to leave blank.
         required: false
         type: string
 
@@ -22,7 +22,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
+      - name: Check out repo to release ${{ inputs.package }}
         uses: actions/checkout@v3
       - name: Define some variables to use later
         id: variables
