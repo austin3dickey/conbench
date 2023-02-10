@@ -101,15 +101,26 @@ jobs:
               head: '${{ steps.variables.outputs.branch_name }}',
               base: 'main',
               body: 'Beep, boop. I am a bot, requested to open this PR in preparation to release to PyPI.'
-            })
-            console.log('PR created. Response:')
-            console.log(pr_response)
+            });
+            console.log('PR created. Response:');
+            console.log(pr_response);
 
-            await github.rest.pulls.merge({
+            const merge_response = await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: pr_response.data.number
-            })
+              pull_number: pr_response.data.number,
+              merge_method: 'squash'
+            });
+            console.log('PR merged. Response:');
+            console.log(merge_response);
+
+            const delete_response = await github.rest.git.deleteRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'heads/${{ steps.variables.outputs.branch_name }}'
+            });
+            console.log('Branch deleted. Response:');
+            console.log(delete_response);
       - name: Sync local repo to main branch
         id: get_commit
         run: |
