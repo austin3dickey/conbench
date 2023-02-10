@@ -128,11 +128,12 @@ jobs:
           python -m build
       - name: Upload to PyPI
         env:
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: a
+          TWINE_PASSWORD: a
         run: |
           cd ${{ steps.variables.outputs.pkg_root }}
-          python -m twine upload dist/* --non-interactive
+          # python -m twine upload dist/* --non-interactive
+          ls dist
       - name: Tag this commit
         uses: actions/github-script@v6
         with:
