@@ -79,7 +79,7 @@ jobs:
             exit 1
           fi
 
-          echo $new_file_contents > ${{ steps.variables.outputs.version_file }}
+          echo -e $new_file_contents > ${{ steps.variables.outputs.version_file }}
       - name: Commit to a branch
         run: |
           git config user.name github-actions
@@ -102,6 +102,8 @@ jobs:
               base: 'main',
               body: 'Beep, boop. I am a bot, requested to open this PR in preparation to release to PyPI.'
             })
+            console.log('PR created:')
+            console.log(pull)
 
             await github.rest.pulls.merge({
               owner: context.repo.owner,
